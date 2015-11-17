@@ -1,0 +1,158 @@
+﻿from tkinter import * 
+import pylab
+from pylab import *
+import time
+
+# The class the handlles the plot creating and updating
+class Plots():
+    def __init__(self):
+        xAchse=pylab.arange(0,100,1)
+        yAchse=pylab.array([0]*100)
+
+        fig = pylab.figure(1)
+        ax = fig.add_subplot(311)
+        ax.grid(True)
+        ax.set_title("Acceleration in Z Axis")
+        ax.set_xlabel("Time")
+        ax.set_ylabel("g")
+        ax.axi.plot(xAchse,yAchse,'-')
+
+        ax2=fig.ads([0,100,0,200])
+        line1=axd_subplot(312)
+        ax2.grid(True)
+        ax2.set_title("Acceleration in X Axis")
+        ax2.set_xlabel("Time")
+        ax2.set_ylabel("g")
+        ax2.axis([0,100,0,200])
+
+        ax2=fig.add_subplot(312)
+        ax2.grid(True)
+        ax2.set_title("Angular Accelration")
+        ax2.set_xlabel("Time")
+        ax2.set_ylabel("rad/sec")
+        ax2.axis([0,100,0,200])
+
+
+        line2=ax2.plot(xAchse,yAchse,'-')
+
+        manager = pylab.get_current_fig_manager()
+
+
+        def animate(i):
+            global values
+            pullData = open('testdata.txt', 'r').read()
+            dataArray = pullData.split('\n')
+            xar = []
+            yar = []
+            zar = []
+            for eachline in dataArray:
+              try:
+                  if len (eachline) > 1:
+                   x,y,z = eachline.split(',')
+                   #print(x + " " + y + "  " + z)
+                   xar.append(int(x))
+                   yar.append(int(y))
+                   zar.append(float(z))
+              except Exception:
+                   #print("Error occured")
+                   pass
+
+            CurrentXAxis=pylab.arange((len(yar)-100),len(yar),1)
+            yval = pylab.array(yar[(len(yar)-100):])
+            line1[0].set_data(CurrentXAxis,yval)
+            ax.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1.5,200])
+
+            zval = pylab.array(zar[(len(zar)-100):])
+            line2[0].set_data(CurrentXAxis,zval)
+            ax2.axis([CurrentXAxis.min(),CurrentXAxis.max(),-1.5,600])
+
+            manager.canvas.draw()
+
+
+        timer = fig.canvas.new_timer(interval=50)
+        timer.add_callback(animate, ())
+        timer.start()
+
+
+        pylab.show()
+
+
+
+# The code segment that handles the GUI
+
+#the 2 necessary frames
+class GUI():
+    def __init__(self):
+        
+        self.root = Tk()
+        frame1 = Frame(self.root)
+        frame1.pack(side = LEFT)
+        frame1.rowconfigure(1, minsize =70)
+        frame1.rowconfigure(3, minsize =70)
+        frame1.columnconfigure(3,minsize = 70)
+        frame1.columnconfigure(1,minsize = 70)
+        #adding the 4 arrows as pic, and the acel lbls
+        self.label = []
+        arrowpic = []
+        self.acel_lbl = []
+        for i in [1,2,3,4]:
+            filepath = "arrow"+str(i)+".gif"
+            arrowpic.append (PhotoImage(file = filepath))  
+            self.label.append ( Label(frame1, image = arrowpic[i-1]))
+            self.acel_lbl.append(Label(frame1, text=""))
+    
+        #adding the barbell pic
+        barbellpic = PhotoImage(file = "barbell.gif")
+        barbell_label = Label(frame1, image = barbellpic)
+        #arranging the pics and acel Labels in the correct order
+
+        self.label[0].grid(row=3,column=2)
+        self.label[1].grid(row=1,column =2)
+        self.label[2].grid(row =2,column =1)
+        self.label[3].grid(row =2, column=3)
+        barbell_label.grid(row = 2, column = 2)
+
+        #Label(frame1,textvariable=tempvar).grid(column=1,row=1)
+
+        self.acel_lbl[0].grid(row=4,column=2)
+        self.acel_lbl[1].grid(row=0,column =2)
+        self.acel_lbl[2].grid(row =2,column =0)
+        self.acel_lbl[3].grid(row =2, column=4)
+
+        self._update()
+        self.root.mainloop()
+
+    #the method to update the graphics based on the value in the data
+    def _update(self): 
+        pullData = open('testdata.txt', 'r').read()
+        dataArray = pullData.split('\n')
+        xar = []
+        yar = []
+        zar = []
+        for eachline in dataArray:
+            try:
+                if len (eachline) > 1:
+                    x,y,z = eachline.split(',')
+                    #print(x + " " + y + "  " + z)
+                    xar.append(int(x))
+                    yar.append(int(y))
+                    zar.append(float(z))
+            except Exception:
+                #print("Error occured")
+                pass
+        
+        var = xar[len(xar)-1]
+        #Turning the pics on/off
+        if ((len(xar)) > 15):
+            self.label[3].grid_remove()
+        else:
+            self.label[3].grid()
+        
+      #updating the Force readings
+        self.acel_lbl[1].configure(text = var)
+
+
+        self.root.after(20,self._update)
+
+
+test = GUI()
