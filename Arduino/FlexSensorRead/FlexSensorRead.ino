@@ -17,17 +17,30 @@ void loop() {
 
    for (int i =0; i <3; i++){   //Reading input from 3 AnalogInputs
     Flex_val[i] = analogRead(Flex_Sensor[i]);
-    if (Flex_val[i] <5)
-      Flex_val[i] = 0;
-      
+    //if (Flex_val[i] <5)
+     // Flex_val[i] = 0;
+   }
+
+   
+    if ((Flex_val[0] ==0) && (Flex_val[2] == 0))
+        Flex_val[1] =0;
+    else if ((Flex_val[0] == 0) && (Flex_val[1] ==0))
+        Flex_val[2] = 0;
+    else if ((Flex_val[1] ==0 ) && (Flex_val[2] == 0)) 
+       Flex_val[0] = 0;
+       
+   for (int i =0; i <3; i++){   
     average = average + Flex_val[i];
    }
+
+  
+      
   average = average /3;
 
 //Printing the values
   temp_str = "Flex1 = " + String(Flex_val[0]) +  " Flex2 = " + String(Flex_val[1]) + " Flex3 = " + String(Flex_val[2]) + "=> Average =" + String(average);
   Serial.println(temp_str);
-  if (average == 0)
+  if (average < 1)
     {Force = 0;}
   else 
     {Force = (12.174*average) + 26.893;}   //in grams

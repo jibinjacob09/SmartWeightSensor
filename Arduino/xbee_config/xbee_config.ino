@@ -5,6 +5,7 @@
 
 #include <SoftwareSerial.h>
 SoftwareSerial XBee(2, 3); // RX, TX
+String output;
 
 void setup()
 {
@@ -17,17 +18,24 @@ void setup()
 
 void loop()
 { 
+  output = "";
   if (Serial.available())
   {
   //  XBee.write("Testing from serial");
   }
   if (XBee.available())
   { 
+  
+    int ir = XBee.read();
+    //Serial.write(XBee.read());
+    //Serial.print(ir);
 
-    Serial.write(XBee.read());
-
-   
-  }
+    if (((ir>32) && (ir < 127)) || (ir == 10))
+     { char c= ir;
+       Serial.print(c);
+     }
+    
+  } 
   //delay(1000);
 }
 
