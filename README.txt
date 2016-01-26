@@ -1,3 +1,5 @@
-This repo contains all the code that was used to build the Smart Weight Sensor
+Smart Weight Monitor
 
-The SmartWeightSensor is an easy to attach device that can be placed on to any weighlifting bar. It is designed as a tool that will help physiotherpaist assess the muscle recovery of their patients.
+SmartWeight Monitor is targeted to help muscular strengthening in the physiotherapy industry, which has experience significance growth over the last decade. Currently physiotherapists predominantly use qualitative observation to identify if the exercising muscle is fatigued. Such assessment can vary the quality of the treatment a patient is receiving as it heavily dependent on the skill and the experience of the physiotherapist.
+
+ The SmartWeight Monitor is a wireless, portable, easy-to-attach device that can be placed on any barbell/dumbbell. The numerous sensors within the system provide numerical data that reflect the exertion of the targeted muscle as the user is exercising.  The data collected by the device will help physiotherapist monitor the condition of the muscle in real time and provide a more tailored care.
