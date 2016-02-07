@@ -13,4 +13,4 @@ System consists of:
 The device has only been tested with bicep curls. The 3D acceleration and rotational information provided by the IMU (placed on the bar) measures the force exertion by the bicepes on the bar.  The array of force sensors, placed under the handle measures the grip force excerted by the user. The Arduino is programmed to obtain readings from the sensors and use Xbee to wirelessly transmit data to the computer.
 
 The Userinterface looks like:
-![Alt text](./Userinterface.jpg?raw=true "Userinterface")
+![Alt text](https://github.com/jibinjacob09/SmartWeightSensor/blob/master/UserInterface.jpg?raw=true "Userinterface")
